@@ -40,7 +40,7 @@ public class EmployeeCategoryService {
     public List<EmployeeCategory> findAll() {
         LOGGER.debug("Finding all employee categories started");
 
-        final List<EmployeeCategory> categories = employeeCategoryRepository.findAllEmployees()
+        final List<EmployeeCategory> categories = employeeCategoryRepository.findAll()
                                                                             .stream()
                                                                             .map(this::constructEmployeeCategory)
                                                                             .collect(Collectors.toList());
