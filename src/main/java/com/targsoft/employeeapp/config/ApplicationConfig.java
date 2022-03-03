@@ -1,6 +1,7 @@
 package com.targsoft.employeeapp.config;
 
 import com.targsoft.employeeapp.application.EmployeeApplication;
+import com.targsoft.employeeapp.application.EmployeeCategoryApplication;
 import com.targsoft.employeeapp.repository.EmployeeCategoryRepository;
 import com.targsoft.employeeapp.repository.EmployeeRepository;
 import com.targsoft.employeeapp.service.category.EmployeeCategoryService;
@@ -10,6 +11,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ApplicationConfig {
+
+    @Bean
+    public EmployeeCategoryApplication employeeCategoryApplication(final EmployeeCategoryService employeeCategoryService) {
+        return new EmployeeCategoryApplication(employeeCategoryService);
+    }
 
     @Bean
     public EmployeeApplication employeeApplication(final EmployeeService employeeService,
