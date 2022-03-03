@@ -1,4 +1,4 @@
-package com.targsoft.employeeapp.service;
+package com.targsoft.employeeapp.service.category;
 
 import java.text.MessageFormat;
 import java.util.function.Supplier;

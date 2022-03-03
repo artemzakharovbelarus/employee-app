@@ -1,4 +1,4 @@
-package com.targsoft.employeeapp.service;
+package com.targsoft.employeeapp.service.category;
 
 import com.targsoft.employeeapp.domain.EmployeeCategory;
 import com.targsoft.employeeapp.domain.vo.EmployeeCategoryId;
