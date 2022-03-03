@@ -12,7 +12,7 @@ public class EmployeeCategoryId {
         validate();
     }
 
-    public Long getId() {
+    public Long getValue() {
         return id;
     }
 
