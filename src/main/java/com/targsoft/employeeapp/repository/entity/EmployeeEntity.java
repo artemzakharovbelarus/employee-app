@@ -14,18 +14,17 @@ public class EmployeeEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_category_id", referencedColumnName = "id")
-    private EmployeeCategoryEntity category;
+    @Column(name = "employee_category_id")
+    private Long categoryId;
 
     protected EmployeeEntity() { }
 
     public EmployeeEntity(final Long id,
                           final String name,
-                          final EmployeeCategoryEntity category) {
+                          final Long categoryId) {
         this.id = id;
         this.name = name;
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
     public Long getId() {
@@ -36,7 +35,7 @@ public class EmployeeEntity {
         return name;
     }
 
-    public EmployeeCategoryEntity getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 }
