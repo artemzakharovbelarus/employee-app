@@ -6,10 +6,14 @@ import com.targsoft.employeeapp.repository.EmployeeCategoryRepository;
 import com.targsoft.employeeapp.repository.EmployeeRepository;
 import com.targsoft.employeeapp.service.category.EmployeeCategoryService;
 import com.targsoft.employeeapp.service.employee.EmployeeService;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
+@EnableJpaRepositories("com.targsoft.employeeapp.repository")
+@EntityScan("com.targsoft.employeeapp.repository.entity")
 public class ApplicationConfig {
 
     @Bean

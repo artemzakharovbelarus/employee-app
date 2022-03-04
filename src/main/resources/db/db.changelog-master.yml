@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: initial-schema
+      author: Artem Zakharov
+      changes:
+        - sqlFile:
+            path: changelog/scripts/initial-schema.sql
+            relativeToChangelogFile: true
