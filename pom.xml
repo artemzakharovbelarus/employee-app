@@ -12,6 +12,8 @@
     <groupId>com.targsoft.employeeapp</groupId>
     <artifactId>targsoft-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+<!--    <packaging>jar</packaging>-->
+
     <name>targsoft-app</name>
     <description>targsoft-app</description>
 
@@ -73,6 +75,21 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>
+                                com.targsoft.employeeapp.TargsoftAppApplication
+                            </mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
