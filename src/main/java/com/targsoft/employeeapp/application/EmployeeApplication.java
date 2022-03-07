@@ -9,6 +9,7 @@ import com.targsoft.employeeapp.domain.vo.EmployeeCategoryId;
 import com.targsoft.employeeapp.domain.vo.EmployeeId;
 import com.targsoft.employeeapp.service.category.EmployeeCategoryService;
 import com.targsoft.employeeapp.service.employee.EmployeeService;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,7 @@ public class EmployeeApplication {
         return performFullEmployeeView(updatedEmployee);
     }
 
+    @Cacheable("employees-cache")
     public List<EmployeeView> findAll() {
         return employeeService.findAll()
                               .stream()

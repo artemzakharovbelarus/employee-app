@@ -14,7 +14,7 @@ public class EmployeeEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "employee_category_id")
+    @Column(name = "category_id")
     private Long categoryId;
 
     protected EmployeeEntity() { }
