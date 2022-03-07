@@ -26,6 +26,16 @@ services:
     networks:
       - targsoft-network
 
+  targsoft-app:
+    image: targsoft-app:0.0.1
+    hostname: targsoft-app
+    env_file:
+      - ../.env
+    ports:
+      - 8054:8080
+    networks:
+      - targsoft-network
+
 volumes:
   db-data:
     driver: local
