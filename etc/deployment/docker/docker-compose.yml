@@ -6,7 +6,7 @@ services:
     image: postgres:11.4-alpine
     hostname: postgres-targsoft-app
     env_file:
-      - .env
+      - ../.env
     shm_size: '100'
     command: >
       postgres
