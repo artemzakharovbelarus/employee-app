@@ -18,6 +18,10 @@ public class EmployeeCategoryApplication {
         this.employeeCategoryService = employeeCategoryService;
     }
 
+    public void delete(final EmployeeCategoryId id) {
+        employeeCategoryService.delete(id);
+    }
+
     public EmployeeCategoryView save(final EmployeeCategoryDto categoryDto) {
         final EmployeeCategory category = constructEmployeeCategory(categoryDto);
         return constructEmployeeCategoryView(employeeCategoryService.save(category));

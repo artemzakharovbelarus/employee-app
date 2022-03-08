@@ -22,6 +22,12 @@ public class EmployeeController {
         this.employeeApplication = employeeApplication;
     }
 
+    @DeleteMapping("/delete")
+    public void delete(final Long id) {
+        LOGGER.debug("Calling delete started for employee, id: {}", id);
+        employeeApplication.delete(new EmployeeId(id));
+    }
+
     @PostMapping("/save")
     public EmployeeView save(final @RequestBody EmployeeDto employeeDto) {
         LOGGER.debug("Calling save started");

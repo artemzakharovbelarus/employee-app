@@ -22,6 +22,12 @@ public class EmployeeCategoryController {
         this.employeeCategoryApplication = employeeCategoryApplication;
     }
 
+    @DeleteMapping("/delete")
+    public void delete(final Long id) {
+        LOGGER.debug("Calling delete started for employee category, id: {}", id);
+        employeeCategoryApplication.delete(new EmployeeCategoryId(id));
+    }
+
     @PostMapping("/save")
     public EmployeeCategoryView save(final @RequestBody EmployeeCategoryDto categoryDto) {
         LOGGER.debug("Calling save started");
