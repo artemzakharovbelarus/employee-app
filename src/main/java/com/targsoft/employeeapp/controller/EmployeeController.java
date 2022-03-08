@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1.0/employee")
-public class EmployeeController {
+public class EmployeeController extends BaseAppController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
