@@ -10,3 +10,5 @@ Pull docker image command:
 docker pull docker pull artemzakharovby/targsoft-app:latest
 
 ATTENTION! Run docker image with .env file from etc directory
+
+POSTMAN collection in json: https://www.getpostman.com/collections/8011e1e759979732cc2f
