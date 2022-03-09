@@ -22,8 +22,8 @@ public class EmployeeCategoryController extends BaseAppController {
         this.employeeCategoryApplication = employeeCategoryApplication;
     }
 
-    @DeleteMapping("/delete")
-    public void delete(final Long id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(final @PathVariable Long id) {
         LOGGER.debug("Calling delete started for employee category, id: {}", id);
         employeeCategoryApplication.delete(new EmployeeCategoryId(id));
     }
