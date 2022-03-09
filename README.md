@@ -1,7 +1,7 @@
 Managing application.
 
 Architecture:
-Domain driven design (application layer, flat services)
+Domain driven design (application layer, flat services) + immutable domain objects
 
 docker-compose.yml, .env in root directory are for local development
 etc - directory with everything for deploying application in Docker.
