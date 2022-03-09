@@ -2,6 +2,12 @@ FROM java:8
 
 EXPOSE ${SERVER_PORT}
 
-COPY ${JAR_FILE} /targsoft-app.jar
+WORKDIR /app
 
-ENTRYPOINT ["java", "-jar", "targsoft-app.jar"]
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]

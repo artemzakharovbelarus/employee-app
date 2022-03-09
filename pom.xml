@@ -12,6 +12,7 @@
     <groupId>com.targsoft.employeeapp</groupId>
     <artifactId>targsoft-app</artifactId>
     <version>0.0.1</version>
+    <packaging>jar</packaging>
 
     <name>targsoft-app</name>
     <description>targsoft-app</description>
@@ -109,11 +110,16 @@
 
                 <configuration>
                     <contextDirectory>./etc/deployment/docker/services</contextDirectory>
-                    <repository>targsoft-app</repository>
+                    <repository>artemzakharovby/targsoft-app</repository>
                     <tag>${project.version}</tag>
                     <buildArgs>
+                        <MVN>.mvn</MVN>
+                        <SRC>src</SRC>
+                        <MVNW>mvnw</MVNW>
+                        <POM>pom.xml</POM>
+                        <MAVEN_WRAPPER_DIR>.mvn/</MAVEN_WRAPPER_DIR>
                         <SERVER_PORT>8054</SERVER_PORT>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        <JAR_FILE>target/targsoft-app-0.0.1-jar-with-dependencies.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
 
@@ -128,32 +134,24 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>com.targsoft.employeeapp.TargsoftAppApplication</mainClass>
-                            <classpathPrefix>dependency-jars/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.5.1</version>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <includeScope>runtime</includeScope>
-                            <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        com.targsoft.employeeapp.TargsoftAppApplication
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                         </configuration>
                     </execution>
                 </executions>
