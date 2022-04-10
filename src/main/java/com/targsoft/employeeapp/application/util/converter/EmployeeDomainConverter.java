@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class EmployeeDomainConverter {
 
-    private EmployeeCategoryDomainConverter employeeCategoryDomainConverter;
+    private final EmployeeCategoryDomainConverter employeeCategoryDomainConverter;
 
     public EmployeeDomainConverter(EmployeeCategoryDomainConverter employeeCategoryDomainConverter) {
         this.employeeCategoryDomainConverter = employeeCategoryDomainConverter;
