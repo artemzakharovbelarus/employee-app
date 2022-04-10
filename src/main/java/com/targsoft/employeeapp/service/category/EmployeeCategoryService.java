@@ -4,11 +4,11 @@ import com.targsoft.employeeapp.domain.EmployeeCategory;
 import com.targsoft.employeeapp.domain.vo.EmployeeCategoryId;
 import com.targsoft.employeeapp.repository.EmployeeCategoryRepository;
 import com.targsoft.employeeapp.repository.entity.EmployeeCategoryEntity;
+import com.targsoft.employeeapp.service.util.converter.EmployeeCategoryEntityConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EmployeeCategoryService {
@@ -16,9 +16,12 @@ public class EmployeeCategoryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeCategoryService.class);
 
     private final EmployeeCategoryRepository employeeCategoryRepository;
+    private final EmployeeCategoryEntityConverter employeeCategoryEntityConverter;
 
-    public EmployeeCategoryService(final EmployeeCategoryRepository employeeCategoryRepository) {
+    public EmployeeCategoryService(final EmployeeCategoryRepository employeeCategoryRepository,
+                                   final EmployeeCategoryEntityConverter employeeCategoryEntityConverter) {
         this.employeeCategoryRepository = employeeCategoryRepository;
+        this.employeeCategoryEntityConverter = employeeCategoryEntityConverter;
     }
 
     public void delete(final EmployeeCategoryId id) {
@@ -42,7 +45,7 @@ public class EmployeeCategoryService {
 
         final List<EmployeeCategory> categories = employeeCategoryRepository.findAll()
                                                                             .stream()
-                                                                            .map(this::constructEmployeeCategory)
+                                                                            .map(employeeCategoryEntityConverter::convertBack)
                                                                             .collect(Collectors.toList());
 
         LOGGER.trace("Found employee categories detailed printing: {}", categories);
@@ -54,7 +57,7 @@ public class EmployeeCategoryService {
         LOGGER.debug("Employee category finding started for id: {}", id);
 
         final EmployeeCategory category = employeeCategoryRepository.findById(id.getValue())
-                                                                    .map(this::constructEmployeeCategory)
+                                                                    .map(employeeCategoryEntityConverter::convertBack)
                                                                     .orElseThrow(EmployeeCategoryServiceException.supplier("Can't find Employee category with id: {0}", id));
 
         LOGGER.debug("Employee category was found, id: {}", category.getId());
@@ -67,24 +70,13 @@ public class EmployeeCategoryService {
         LOGGER.debug("Employee category upsert started for id: {}", category.getId());
         LOGGER.trace("Employee category parameter: {}", category);
 
-        final EmployeeCategoryEntity categoryEntity = constructEmployeeCategoryEntity(category);
-        final EmployeeCategory upsertedCategory = constructEmployeeCategory(employeeCategoryRepository.save(categoryEntity));
+        final EmployeeCategoryEntity categoryEntity = employeeCategoryEntityConverter.convert(category);
+        final EmployeeCategoryEntity upsertedCategoryEntity = employeeCategoryRepository.save(categoryEntity);
+        final EmployeeCategory upsertedCategory = employeeCategoryEntityConverter.convertBack(upsertedCategoryEntity);
 
         LOGGER.debug("Employee category upsert finished for id: {}", upsertedCategory.getId());
         LOGGER.trace("Upserted employee category detailed printing: {}", upsertedCategory);
 
         return upsertedCategory;
-    }
-
-    private EmployeeCategoryEntity constructEmployeeCategoryEntity(final EmployeeCategory domain) {
-        final Long id = domain.getId()
-                              .map(EmployeeCategoryId::getValue)
-                              .orElse(null);
-        return new EmployeeCategoryEntity(id, domain.getName());
-    }
-
-    private EmployeeCategory constructEmployeeCategory(final EmployeeCategoryEntity entity) {
-        final Optional<EmployeeCategoryId> id = Optional.of(new EmployeeCategoryId(entity.getId()));
-        return new EmployeeCategory(id, entity.getName());
     }
 }

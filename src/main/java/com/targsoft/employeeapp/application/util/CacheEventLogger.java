@@ -1,4 +1,4 @@
-package com.targsoft.employeeapp.util;
+package com.targsoft.employeeapp.application.util;
 
 import com.targsoft.employeeapp.domain.Employee;
 import org.ehcache.event.CacheEvent;

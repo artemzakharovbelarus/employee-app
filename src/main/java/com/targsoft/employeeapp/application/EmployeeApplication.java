@@ -1,29 +1,30 @@
 package com.targsoft.employeeapp.application;
 
+import com.targsoft.employeeapp.application.util.converter.EmployeeDomainConverter;
 import com.targsoft.employeeapp.controller.dto.EmployeeDto;
-import com.targsoft.employeeapp.controller.view.EmployeeCategoryView;
 import com.targsoft.employeeapp.controller.view.EmployeeView;
 import com.targsoft.employeeapp.domain.Employee;
 import com.targsoft.employeeapp.domain.EmployeeCategory;
-import com.targsoft.employeeapp.domain.vo.EmployeeCategoryId;
 import com.targsoft.employeeapp.domain.vo.EmployeeId;
 import com.targsoft.employeeapp.service.category.EmployeeCategoryService;
 import com.targsoft.employeeapp.service.employee.EmployeeService;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EmployeeApplication {
 
     private final EmployeeService employeeService;
     private final EmployeeCategoryService employeeCategoryService;
+    private final EmployeeDomainConverter employeeDomainConverter;
 
     public EmployeeApplication(final EmployeeService employeeService,
-                               final EmployeeCategoryService employeeCategoryService) {
+                               final EmployeeCategoryService employeeCategoryService,
+                               final EmployeeDomainConverter employeeDomainConverter) {
         this.employeeService = employeeService;
         this.employeeCategoryService = employeeCategoryService;
+        this.employeeDomainConverter = employeeDomainConverter;
     }
 
     public void delete(final EmployeeId id) {
@@ -31,14 +32,14 @@ public class EmployeeApplication {
     }
 
     public EmployeeView save(final EmployeeDto employeeDto) {
-        final Employee employeeForSave = constructEmployee(employeeDto);
+        final Employee employeeForSave = employeeDomainConverter.convert(employeeDto);
         final Employee savedEmployee = employeeService.save(employeeForSave);
 
         return performFullEmployeeView(savedEmployee);
     }
 
     public EmployeeView update(final EmployeeDto employeeDto) {
-        final Employee employeeForUpdate = constructEmployee(employeeDto);
+        final Employee employeeForUpdate = employeeDomainConverter.convert(employeeDto);
         final Employee updatedEmployee = employeeService.update(employeeForUpdate);
 
         return performFullEmployeeView(updatedEmployee);
@@ -58,27 +59,6 @@ public class EmployeeApplication {
 
     private EmployeeView performFullEmployeeView(final Employee employee) {
         final EmployeeCategory category = employeeCategoryService.find(employee.getCategoryId());
-        return constructEmployeeView(employee, category);
-    }
-
-    private Employee constructEmployee(final EmployeeDto dto) {
-        final Optional<EmployeeId> id = Optional.ofNullable(dto.getId())
-                                                .map(EmployeeId::new);
-        return new Employee(id, dto.getName(), new EmployeeCategoryId(dto.getCategoryId()));
-    }
-
-    private EmployeeView constructEmployeeView(final Employee employee,
-                                               final EmployeeCategory category) {
-        final Long id = employee.getId()
-                                .get()
-                                .getValue();
-        return new EmployeeView(id, employee.getName(), constructEmployeeCategoryView(category) );
-    }
-
-    private EmployeeCategoryView constructEmployeeCategoryView(final EmployeeCategory category) {
-        final Long id = category.getId()
-                                .get()
-                                .getValue();
-        return new EmployeeCategoryView(id, category.getName());
+        return employeeDomainConverter.convertToView(employee, category);
     }
 }
