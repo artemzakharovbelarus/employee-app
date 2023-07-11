@@ -14,7 +14,7 @@ public class CacheEventLogger implements CacheEventListener<Long, Employee> {
     public void onEvent(CacheEvent<? extends Long, ? extends Employee> cacheEvent) {
         LOGGER.debug("Employee cache event, key: {}, old value: {}, new value: {}",
                      cacheEvent.getKey(),
-                     cacheEvent.getNewValue(),
-                     cacheEvent.getOldValue());
+                     cacheEvent.getOldValue(),
+                     cacheEvent.getNewValue());
     }
 }
